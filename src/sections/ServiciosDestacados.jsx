@@ -1,10 +1,36 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { servicios } from '../data/servicios' // Nota: Si quieres que traiga los de Supabase aquí, cambia esto después.
+import { supabase } from '../utils/supabase'
 import CardServicio from '../components/CardServicio'
 import { ArrowRight } from 'lucide-react'
 
 export default function ServiciosDestacados() {
-  const serviciosHome = servicios.slice(0, 3)
+  const [servicios, setServicios] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchServicios() {
+      // Traemos los primeros 3 servicios de Supabase
+      const { data, error } = await supabase
+        .from('servicios')
+        .select(`*, categorias (nombre)`)
+        .limit(3) // Solo 3 para el home
+      
+      if (error) {
+        console.error('Error cargando servicios en home:', error)
+      } else {
+        const formateados = data.map(s => ({
+          ...s,
+          categoria: s.categorias?.nombre || 'General'
+        }))
+        setServicios(formateados)
+      }
+      setLoading(false)
+    }
+    fetchServicios()
+  }, [])
+
+  if (loading) return null // O un esqueleto de carga si prefieres
 
   return (
     <section className="py-32 bg-white">
@@ -15,7 +41,7 @@ export default function ServiciosDestacados() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {serviciosHome.map((servicio) => (
+          {servicios.map((servicio) => (
             <CardServicio key={servicio.id} servicio={servicio} />
           ))}
         </div>
