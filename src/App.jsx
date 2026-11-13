@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 
-// Páginas
+// Páginas Públicas
 import Home from './pages/Home'
 import DescubreNavidad from './pages/DescubreNavidad'
 import QueHacer from './pages/QueHacer'
@@ -15,9 +15,14 @@ import Galeria from './pages/Galeria'
 import Actualidad from './pages/Actualidad'
 import NotFound from './pages/NotFound'
 
+// Páginas de Administración (No llevan MainLayout para que no tengan el Navbar público)
+import Login from './pages/Login'
+import AdminDashboard from './pages/AdminDashboard'
+
 function App() {
   return (
     <Routes>
+      {/* RUTAS PÚBLICAS (Con Navbar y Footer) */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/descubre-navidad" element={<DescubreNavidad />} />
@@ -30,10 +35,12 @@ function App() {
         <Route path="/planifica-tu-viaje" element={<Planifica />} />
         <Route path="/galeria" element={<Galeria />} />
         <Route path="/actualidad" element={<Actualidad />} />
-        
-        {/* Ruta para manejar errores 404 */}
         <Route path="*" element={<NotFound />} />
       </Route>
+
+      {/* RUTAS DE ADMINISTRACIÓN (Pantalla completa, sin Navbar público) */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
     </Routes>
   )
 }

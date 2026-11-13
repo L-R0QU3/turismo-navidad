@@ -1,20 +1,24 @@
 export default function CardServicio({ servicio }) {
+  // Forzamos una imagen local por defecto si el campo viene vacío
+  const imagenMostrar = servicio.imagen_url || '/img/PlayaMatanzas1.png';
+
   return (
     <div className="bg-surface rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100 overflow-hidden group">
       
       {/* Imagen */}
       <div className="h-56 w-full bg-gray-200 relative overflow-hidden">
         <img 
-          src={servicio.imagen} 
+          src={imagenMostrar} 
           alt={`Imagen de ${servicio.nombre}`} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           onError={(e) => {
+            // Si la imagen falla, intenta con esta ruta local
             e.target.onerror = null; 
-            e.target.src = "https://placehold.co/600x400/f5efe6/003b4a?text=Imagen+no+disponible";
+            e.target.src = "/img/PlayaMatanzas1.png"; 
           }}
         />
         <div className="absolute top-4 right-4 bg-brand-olive text-white text-xs font-bold px-3 py-1.5 rounded shadow-sm">
-          {servicio.categoria}
+          {servicio.categoria || servicio.categorias?.nombre || 'General'}
         </div>
       </div>
       
@@ -30,15 +34,15 @@ export default function CardServicio({ servicio }) {
         <div className="text-sm text-graytext space-y-2 mb-6 flex-grow">
           <p className="flex items-start gap-2">
             <span className="font-bold text-brand-blue shrink-0">Dirección:</span> 
-            <span>{servicio.direccion}</span>
+            <span>{servicio.direccion || 'No especificada'}</span>
           </p>
           <p className="flex items-center gap-2">
             <span className="font-bold text-brand-blue shrink-0">Teléfono:</span> 
-            <a href={`tel:${servicio.telefono}`} className="hover:text-brand-teal transition-colors">{servicio.telefono}</a>
+            <a href={`tel:${servicio.telefono}`} className="hover:text-brand-teal transition-colors">{servicio.telefono || 'No disponible'}</a>
           </p>
           <p className="flex items-center gap-2 overflow-hidden">
             <span className="font-bold text-brand-blue shrink-0">Email:</span> 
-            <a href={`mailto:${servicio.email}`} className="hover:text-brand-teal transition-colors truncate">{servicio.email}</a>
+            <a href={`mailto:${servicio.email}`} className="hover:text-brand-teal transition-colors truncate">{servicio.email || 'No disponible'}</a>
           </p>
         </div>
 

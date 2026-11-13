@@ -1,17 +1,48 @@
-import { useState } from 'react'
-import { servicios } from '../data/servicios'
+import { useState, useEffect } from 'react'
+import { supabase } from '../utils/supabase'
 import CardServicio from '../components/CardServicio'
+import usePageTitle from '../utils/usePageTitle'
 
 export default function Servicios() {
+  usePageTitle('Servicios Turísticos')
+
+  const [servicios, setServicios] = useState([])
+  const [loading, setLoading] = useState(true)
   const [busqueda, setBusqueda] = useState('')
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todas')
   const [localidadSeleccionada, setLocalidadSeleccionada] = useState('Todas')
+
+  useEffect(() => {
+    async function fetchServicios() {
+      setLoading(true)
+      // Hacemos la consulta a Supabase, uniendo la tabla categorias para obtener el nombre
+      const { data, error } = await supabase
+        .from('servicios')
+        .select(`
+          *,
+          categorias (nombre)
+        `)
+        .order('created_at', { ascending: false }) // Los más nuevos primero
+      
+      if (error) {
+        console.error('Error cargando servicios:', error)
+      } else {
+        // Adaptamos los datos al formato que espera tu componente CardServicio
+        const serviciosFormateados = data.map(s => ({
+          ...s,
+          categoria: s.categorias?.nombre || 'General'
+        }))
+        setServicios(serviciosFormateados)
+      }
+      setLoading(false)
+    }
+    fetchServicios()
+  }, [])
 
   // Extraer categorías y localidades únicas
   const categorias = ['Todas', ...new Set(servicios.map(s => s.categoria))]
   const localidades = ['Todas', ...new Set(servicios.map(s => s.localidad))]
 
-  // Lógica de filtrado
   const serviciosFiltrados = servicios.filter(servicio => {
     const coincideBusqueda = servicio.nombre.toLowerCase().includes(busqueda.toLowerCase())
     const coincideCategoria = categoriaSeleccionada === 'Todas' || servicio.categoria === categoriaSeleccionada
@@ -35,8 +66,6 @@ export default function Servicios() {
         {/* Panel de Filtros */}
         <div className="bg-surface p-6 rounded-lg shadow-md mb-12 border-t-4 border-brand-olive">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* Buscador */}
             <div>
               <label className="block text-sm font-bold text-brand-blue mb-2">Buscar por nombre</label>
               <input 
@@ -47,8 +76,6 @@ export default function Servicios() {
                 onChange={(e) => setBusqueda(e.target.value)}
               />
             </div>
-
-            {/* Filtro Categoría */}
             <div>
               <label className="block text-sm font-bold text-brand-blue mb-2">Categoría</label>
               <select 
@@ -56,13 +83,9 @@ export default function Servicios() {
                 value={categoriaSeleccionada}
                 onChange={(e) => setCategoriaSeleccionada(e.target.value)}
               >
-                {categorias.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
+                {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
               </select>
             </div>
-
-            {/* Filtro Localidad */}
             <div>
               <label className="block text-sm font-bold text-brand-blue mb-2">Localidad</label>
               <select 
@@ -70,28 +93,16 @@ export default function Servicios() {
                 value={localidadSeleccionada}
                 onChange={(e) => setLocalidadSeleccionada(e.target.value)}
               >
-                {localidades.map(loc => (
-                  <option key={loc} value={loc}>{loc}</option>
-                ))}
+                {localidades.map(loc => <option key={loc} value={loc}>{loc}</option>)}
               </select>
             </div>
           </div>
-          
-          {/* Botón para limpiar filtros */}
-          {(busqueda || categoriaSeleccionada !== 'Todas' || localidadSeleccionada !== 'Todas') && (
-            <div className="mt-4 text-right">
-              <button 
-                onClick={() => { setBusqueda(''); setCategoriaSeleccionada('Todas'); setLocalidadSeleccionada('Todas'); }}
-                className="text-sm text-brand-teal font-bold hover:underline"
-              >
-                Limpiar filtros
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Resultados */}
-        {serviciosFiltrados.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-20 text-brand-blue text-xl font-bold">Cargando servicios...</div>
+        ) : serviciosFiltrados.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviciosFiltrados.map(servicio => (
               <CardServicio key={servicio.id} servicio={servicio} />
@@ -100,7 +111,6 @@ export default function Servicios() {
         ) : (
           <div className="text-center py-20 bg-surface rounded-lg shadow-sm">
             <p className="text-xl text-graytext mb-2">No se encontraron servicios con esos criterios.</p>
-            <p className="text-sm text-gray-500">Intenta buscando con otras palabras o cambiando los filtros.</p>
           </div>
         )}
       </div>
