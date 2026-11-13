@@ -14,6 +14,7 @@ import Planifica from './pages/Planifica'
 import Galeria from './pages/Galeria'
 import Actualidad from './pages/Actualidad'
 import NotFound from './pages/NotFound'
+import PoliticaCookies from './pages/PoliticaCookies' // <-- IMPORTAMOS LA NUEVA PÁGINA
 
 // Páginas de Administración
 import Login from './pages/Login'
@@ -34,9 +35,10 @@ function App() {
           <Route path="/mapa-turistico" element={<MapaTuristico />} />
           
           <Route path="/planifica-tu-viaje" element={<Planifica />} />
-          
-          {/* Redirección: Si alguien busca la ruta vieja, lo lleva a Planifica */}
           <Route path="/que-hacer" element={<Navigate to="/planifica-tu-viaje" replace />} />
+
+          {/* NUEVA RUTA DE COOKIES */}
+          <Route path="/politica-de-cookies" element={<PoliticaCookies />} />
 
           <Route path="/galeria" element={<Galeria />} />
           <Route path="/actualidad" element={<Actualidad />} />
