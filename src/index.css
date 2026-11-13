@@ -17,3 +17,89 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Barlow Condensed', sans-serif;
   letter-spacing: 0.02em; /* Un pequeño espaciado para mejorar la lectura en títulos condensados */
 }
+
+/* Ajustes para el Mapa Turístico */
+.leaflet-container {
+  z-index: 0;
+  font-family: 'Barlow', sans-serif;
+}
+
+.custom-leaflet-icon {
+  background: transparent;
+  border: none;
+}
+
+/* Estilo para los Popups */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.leaflet-popup-tip {
+  background: white;
+}
+
+/* --- ESTILOS PARA EL MAPA --- */
+.leaflet-container {
+  z-index: 0;
+  font-family: 'Barlow', sans-serif;
+}
+
+/* Quitar fondo por defecto del icono personalizado */
+.custom-leaflet-icon {
+  background: transparent;
+  border: none;
+}
+
+/* Hacer que el popup se adapte al diseño de tarjeta */
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: auto !important; /* Permite que el contenido maneje su propio ancho */
+}
+
+.leaflet-popup-tip-container {
+  margin-top: -1px;
+}
+
+/* Ocultar la flecha por defecto y dejar una más estética */
+.leaflet-popup-tip {
+  background: white;
+  box-shadow: none;
+}
+
+/* --- ESTILOS PARA EL MAPA --- */
+.leaflet-container {
+  z-index: 0;
+  font-family: 'Barlow', sans-serif;
+}
+
+/* El truco para apagar el resto del territorio */
+.grayscale-map .leaflet-tile-pane {
+  filter: grayscale(100%) opacity(0.6) contrast(1.2);
+}
+
+.custom-leaflet-icon {
+  background: transparent;
+  border: none;
+}
+
+/* Estilos del Popup */
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.leaflet-popup-content {
+  margin: 0;
+  width: auto !important;
+}
+.leaflet-popup-tip {
+  background: white;
+}

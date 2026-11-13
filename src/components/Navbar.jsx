@@ -6,11 +6,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  // Detectar scroll para cambiar de transparente a sólido
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -18,38 +15,47 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'La Comuna', path: '/descubre-navidad' },
-    { name: 'Qué Hacer', path: '/que-hacer' },
+    { name: 'Atractivos', path: '/atractivos' },
     { name: 'Servicios', path: '/servicios-turisticos' },
-        { name: 'Atractivos', path: '/atractivos' },
-    { name: 'Planifica', path: '/planifica-tu-viaje' },
+    { name: 'Planifica tu Viaje', path: '/planifica-tu-viaje' },
   ]
 
   return (
     <header 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-2 border-b-4 border-brand-olive' : 'bg-gradient-to-b from-brand-blue/80 to-transparent py-4'
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-md py-2' 
+          : 'bg-gradient-to-b from-black/60 to-transparent py-4'
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="container mx-auto px-6 lg:px-12 flex justify-between items-center">
         
-        {/* --- NUEVO LOGO MEJORADO --- */}
-        <Link to="/" className="flex items-center gap-3 group">
-          {/* Logo Oficial en un contenedor circular elegante */}
-          <div className={`p-1.5 rounded-full transition-all duration-300 ${scrolled ? 'bg-brand-sand' : 'bg-white/90 backdrop-blur-sm shadow-lg'}`}>
+        {/* LOGO DESTACADO */}
+        <Link to="/" className="flex items-center gap-4 group">
+          
+          {/* Círculo blanco sólido para resaltar el logo */}
+          <div className={`p-1 rounded-full transition-all duration-500 shadow-lg ${
+            scrolled ? 'bg-white border border-gray-100' : 'bg-white/95'
+          }`}>
             <img 
               src="/img/LogoMuniNavidad.png" 
               alt="Logo Municipalidad" 
-              className="h-10 w-10 object-contain rounded-full"
-              onError={(e) => { e.target.style.display = 'none' }}
+              className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform duration-500 group-hover:scale-110" 
             />
           </div>
-          
-          {/* Logotipo Tipográfico */}
-          <div className="flex flex-col justify-center border-l-2 pl-3 border-white/30 transition-colors duration-300 group-hover:border-brand-gold">
-            <span className={`text-[10px] font-bold tracking-[0.2em] uppercase leading-tight ${scrolled ? 'text-brand-teal' : 'text-brand-gold'}`}>
+
+          {/* Textos con sombra para legibilidad */}
+          <div className={`flex flex-col border-l-2 pl-4 transition-colors duration-500 ${
+            scrolled ? 'border-brand-gold' : 'border-white/70'
+          }`}>
+            <span className={`text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase ${
+              scrolled ? 'text-brand-blue' : 'text-brand-gold drop-shadow-md'
+            }`}>
               Ilustre Municipalidad
             </span>
-            <span className={`text-2xl font-serif font-bold leading-tight tracking-wide ${scrolled ? 'text-brand-blue' : 'text-white'}`}>
+            <span className={`text-xl md:text-2xl font-serif font-bold tracking-wide leading-none ${
+              scrolled ? 'text-brand-dark' : 'text-white drop-shadow-lg'
+            }`}>
               Turismo Navidad
             </span>
           </div>
@@ -62,18 +68,17 @@ export default function Navbar() {
               key={link.name} 
               to={link.path}
               className={({ isActive }) => 
-                `relative text-sm font-bold transition-colors duration-300 uppercase tracking-wider py-2 group ${
+                `relative text-sm font-bold transition-colors duration-300 uppercase tracking-widest py-2 group ${
                   isActive 
                     ? 'text-brand-gold' 
-                    : scrolled ? 'text-brand-blue hover:text-brand-teal' : 'text-white hover:text-brand-gold'
+                    : scrolled ? 'text-brand-dark hover:text-brand-teal' : 'text-white hover:text-brand-gold drop-shadow-md'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
                   {link.name}
-                  {/* Línea animada inferior */}
-                  <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${isActive ? 'scale-x-100 bg-brand-gold' : 'scale-x-0 group-hover:scale-x-100 bg-current'}`}></span>
+                  <span className={`absolute bottom-0 left-0 w-full h-[2px] transform origin-left transition-transform duration-300 ${isActive ? 'scale-x-100 bg-brand-gold' : 'scale-x-0 group-hover:scale-x-100 bg-current'}`}></span>
                 </>
               )}
             </NavLink>
@@ -81,8 +86,8 @@ export default function Navbar() {
           
           <Link 
             to="/mapa-turistico" 
-            className={`px-5 py-2.5 rounded-full transition-all font-bold text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${
-              scrolled ? 'bg-brand-blue text-white hover:bg-brand-teal' : 'bg-brand-gold text-brand-blue hover:bg-white'
+            className={`px-6 py-2.5 rounded-full transition-all font-bold text-sm tracking-wide shadow-xl hover:-translate-y-0.5 ${
+              scrolled ? 'bg-brand-blue text-white hover:bg-brand-teal' : 'bg-brand-gold text-brand-dark hover:bg-white'
             }`}
           >
             Ver Mapa
@@ -91,36 +96,29 @@ export default function Navbar() {
 
         {/* Botón Móvil */}
         <button 
-          className={`lg:hidden p-2 rounded-md transition-colors ${scrolled ? 'text-brand-blue hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+          className={`lg:hidden p-2 rounded-full transition-colors ${
+            scrolled ? 'text-brand-dark bg-gray-100' : 'text-white bg-white/20 backdrop-blur-md shadow-md'
+          }`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Menú Móvil */}
-      <div className={`lg:hidden absolute w-full bg-white shadow-xl transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-screen border-t border-gray-100' : 'max-h-0'}`}>
-        <nav className="flex flex-col py-4">
+      <div className={`lg:hidden absolute w-full bg-white shadow-2xl transition-all duration-500 overflow-hidden ${isOpen ? 'max-h-screen border-t border-gray-100' : 'max-h-0'}`}>
+        <nav className="flex flex-col py-4 px-6">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               to={link.path}
-              className="px-6 py-4 text-sm font-bold text-brand-blue hover:text-brand-gold hover:bg-brand-sand uppercase border-b border-gray-50 flex items-center justify-between"
+              className="py-4 text-sm font-bold text-brand-dark hover:text-brand-gold uppercase tracking-widest border-b border-gray-100 flex justify-between items-center"
               onClick={() => setIsOpen(false)}
             >
               {link.name}
-              <span className="text-brand-gold">&rarr;</span>
+              <span className="text-brand-gold opacity-50">&rarr;</span>
             </Link>
           ))}
-          <div className="px-6 pt-6 pb-2">
-            <Link 
-              to="/mapa-turistico" 
-              className="block w-full text-center bg-brand-blue text-white px-5 py-4 rounded-lg hover:bg-brand-teal transition-all font-bold text-sm"
-              onClick={() => setIsOpen(false)}
-            >
-              Ver Mapa Turístico
-            </Link>
-          </div>
         </nav>
       </div>
     </header>

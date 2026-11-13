@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, MapPin, Leaf, ShieldCheck, Heart } from 'lucide-react'
+import { ArrowRight, Compass, Leaf, ShieldCheck, Heart } from 'lucide-react'
 import CategoriasHome from '../sections/CategoriasHome'
 import AtractivosDestacados from '../sections/AtractivosDestacados'
 import ServiciosDestacados from '../sections/ServiciosDestacados'
@@ -11,46 +11,48 @@ export default function Home() {
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-brand-sand">
       {/* Hero a pantalla completa */}
-      <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Imagen de fondo principal */}
-          <img src="/img/PlayaMatanzas1.png" alt="Paisaje de Navidad" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-blue/70 via-brand-blue/40 to-brand-blue/90"></div>
+          <img src="/img/PlayaMatanzas1.png" alt="Navidad" className="w-full h-full object-cover scale-105" />
+          <div className="absolute inset-0 bg-brand-dark/40 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-80"></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 text-center mt-20">
-          <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
-            <span className="inline-block py-1 px-3 rounded-full bg-brand-gold/20 backdrop-blur-sm border border-brand-gold/50 text-brand-gold font-bold text-sm tracking-widest uppercase mb-6">
-              Ilustre Municipalidad de Navidad
+        <div className="relative z-10 container mx-auto px-6 lg:px-12 text-center mt-24">
+          <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="max-w-5xl mx-auto">
+            
+            <span className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-xs tracking-[0.2em] uppercase mb-8">
+              <Compass className="w-4 h-4 text-brand-gold" /> Descubre el Litoral Central
             </span>
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight max-w-4xl mx-auto drop-shadow-lg">
-              Descubre la magia de nuestra costa.
+            
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-bold text-white mb-8 leading-[0.9] tracking-tight drop-shadow-2xl">
+              Navidad <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-200">Comuna de Paisajes.</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light">
-              Un destino único que equilibra la aventura, la tradición y servicios turísticos de primer nivel.
+            
+            <p className="text-lg md:text-2xl text-gray-200 mb-12 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-md">
+              Donde el río Rapel se encuentra con el Pacífico. Vive la aventura, la tradición y la calidez de nuestra gente.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/atractivos" className="bg-brand-teal text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-blue transition-all shadow-[0_0_20px_rgba(0,138,158,0.4)] flex items-center justify-center gap-2 group">
-                Explorar Atractivos
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link to="/atractivos" className="bg-brand-gold text-brand-dark px-10 py-4 rounded-full font-bold text-lg hover:bg-white transition-all shadow-[0_0_30px_rgba(192,148,44,0.3)] flex items-center justify-center gap-3 group">
+                Explorar Destinos
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Link>
-              <Link to="/planifica-tu-viaje" className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-brand-blue transition-all flex items-center justify-center gap-2">
-                <MapPin className="w-5 h-5" />
-                Cómo llegar
+              <Link to="/planifica-tu-viaje" className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-brand-dark transition-all flex items-center justify-center gap-3">
+                Planifica tu Viaje
               </Link>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Secciones animadas */}
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeInUp}>
         <CategoriasHome />
       </motion.div>
@@ -63,32 +65,28 @@ export default function Home() {
         <ServiciosDestacados />
       </motion.div>
 
-      {/* Nueva Sección: Turismo Responsable */}
-      <section className="py-20 bg-brand-blue text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[url('/img/RioRapel3.png')] bg-cover bg-center"></div>
+      {/* Sección Turismo Responsable */}
+      <section className="py-32 bg-brand-dark text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[url('/img/RioRapel3.png')] bg-cover bg-center"></div>
         
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4">Visita Navidad de manera responsable</h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">La naturaleza es nuestro principal tesoro. Ayúdanos a cuidarla.</p>
+        <div className="container mx-auto px-6 lg:px-12 relative z-10">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-serif font-bold mb-6">Compromiso con el Territorio</h2>
+            <p className="text-xl text-gray-400 font-light">La naturaleza es nuestro principal tesoro. Visita Navidad siendo parte de la solución.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-center hover:bg-white/20 transition-colors">
-              <Leaf className="w-12 h-12 text-brand-gold mx-auto mb-4" />
-              <h3 className="font-bold text-xl mb-2">Cuida el Entorno</h3>
-              <p className="text-sm text-gray-300">Hazte cargo de tu basura, recicla y respeta los límites de velocidad. Nuestros caminos son rurales.</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-center hover:bg-white/20 transition-colors">
-              <Heart className="w-12 h-12 text-brand-gold mx-auto mb-4" />
-              <h3 className="font-bold text-xl mb-2">Apoya lo Local</h3>
-              <p className="text-sm text-gray-300">Prefiere y consume servicios que cumplan la normativa vigente y reflejen la identidad de Navidad.</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-center hover:bg-white/20 transition-colors">
-              <ShieldCheck className="w-12 h-12 text-brand-gold mx-auto mb-4" />
-              <h3 className="font-bold text-xl mb-2">Respeta la Comunidad</h3>
-              <p className="text-sm text-gray-300">Estás de visita. Respeta las costumbres, tradiciones y el orden establecido por nuestros vecinos.</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: <Leaf className="w-8 h-8" />, title: "Cuida el Entorno", text: "Hazte cargo de tu basura, recicla y respeta los límites de velocidad en caminos rurales." },
+              { icon: <Heart className="w-8 h-8" />, title: "Apoya lo Local", text: "Prefiere servicios que cumplan la normativa y reflejen la identidad de nuestra comuna." },
+              { icon: <ShieldCheck className="w-8 h-8" />, title: "Respeta la Comunidad", text: "Estás de visita. Respeta las costumbres, tradiciones y el orden de nuestros vecinos." }
+            ].map((item, i) => (
+              <div key={i} className="bg-white/5 backdrop-blur-lg p-10 rounded-2xl border border-white/10 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+                <div className="text-brand-gold mb-6">{item.icon}</div>
+                <h3 className="font-bold text-2xl mb-3 font-serif">{item.title}</h3>
+                <p className="text-gray-400 leading-relaxed">{item.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

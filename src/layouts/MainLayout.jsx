@@ -4,11 +4,14 @@ import Footer from '../components/Footer'
 
 export default function MainLayout() {
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-100 font-sans text-neutral-900">
+    <div className="flex flex-col min-h-screen bg-brand-sand font-sans text-brand-dark">
       <Navbar />
-      <main className="flex-grow">
+      
+      {/* Al no haber animación, el contenido simplemente se reemplaza al instante */}
+      <main className="flex-grow bg-brand-sand">
         <Outlet />
       </main>
+
       <Footer />
     </div>
   )

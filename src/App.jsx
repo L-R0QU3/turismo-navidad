@@ -1,10 +1,10 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
+import ScrollToTop from './components/ScrollToTop'
 
 // Páginas Públicas
 import Home from './pages/Home'
 import DescubreNavidad from './pages/DescubreNavidad'
-import QueHacer from './pages/QueHacer'
 import Atractivos from './pages/Atractivos'
 import AtractivoDetalle from './pages/AtractivoDetalle'
 import Servicios from './pages/Servicios'
@@ -15,33 +15,38 @@ import Galeria from './pages/Galeria'
 import Actualidad from './pages/Actualidad'
 import NotFound from './pages/NotFound'
 
-// Páginas de Administración (No llevan MainLayout para que no tengan el Navbar público)
+// Páginas de Administración
 import Login from './pages/Login'
 import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
   return (
-    <Routes>
-      {/* RUTAS PÚBLICAS (Con Navbar y Footer) */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/descubre-navidad" element={<DescubreNavidad />} />
-        <Route path="/que-hacer" element={<QueHacer />} />
-        <Route path="/atractivos" element={<Atractivos />} />
-        <Route path="/atractivos/:id" element={<AtractivoDetalle />} />
-        <Route path="/servicios-turisticos" element={<Servicios />} />
-        <Route path="/rutas-turisticas" element={<Rutas />} />
-        <Route path="/mapa-turistico" element={<MapaTuristico />} />
-        <Route path="/planifica-tu-viaje" element={<Planifica />} />
-        <Route path="/galeria" element={<Galeria />} />
-        <Route path="/actualidad" element={<Actualidad />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/descubre-navidad" element={<DescubreNavidad />} />
+          <Route path="/atractivos" element={<Atractivos />} />
+          <Route path="/atractivos/:id" element={<AtractivoDetalle />} />
+          <Route path="/servicios-turisticos" element={<Servicios />} />
+          <Route path="/rutas-turisticas" element={<Rutas />} />
+          <Route path="/mapa-turistico" element={<MapaTuristico />} />
+          
+          <Route path="/planifica-tu-viaje" element={<Planifica />} />
+          
+          {/* Redirección: Si alguien busca la ruta vieja, lo lleva a Planifica */}
+          <Route path="/que-hacer" element={<Navigate to="/planifica-tu-viaje" replace />} />
 
-      {/* RUTAS DE ADMINISTRACIÓN (Pantalla completa, sin Navbar público) */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
-    </Routes>
+          <Route path="/galeria" element={<Galeria />} />
+          <Route path="/actualidad" element={<Actualidad />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      </Routes>
+    </>
   )
 }
 

@@ -1,20 +1,17 @@
 import { Link } from 'react-router-dom'
-import { servicios } from '../data/servicios'
+import { servicios } from '../data/servicios' // Nota: Si quieres que traiga los de Supabase aquí, cambia esto después.
 import CardServicio from '../components/CardServicio'
+import { ArrowRight } from 'lucide-react'
 
 export default function ServiciosDestacados() {
   const serviciosHome = servicios.slice(0, 3)
 
   return (
-    <section className="py-20 bg-brand-sand">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-blue mb-4">
-            Servicios Turísticos
-          </h2>
-          <p className="text-lg text-graytext max-w-2xl mx-auto">
-            Encuentra alojamiento, gastronomía y actividades para complementar tu viaje.
-          </p>
+    <section className="py-32 bg-white">
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-serif font-bold text-brand-dark mb-4">Tu Estadía Perfecta</h2>
+          <p className="text-lg text-graytext">Hospedajes con encanto, gastronomía local y experiencias diseñadas para que no quieras irte.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -23,12 +20,13 @@ export default function ServiciosDestacados() {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <Link 
             to="/servicios-turisticos" 
-            className="inline-block bg-brand-blue text-white px-8 py-3 rounded font-bold hover:bg-brand-teal transition-colors"
+            className="inline-flex items-center gap-3 bg-brand-dark text-white px-10 py-4 rounded-full font-bold hover:bg-brand-teal transition-all shadow-xl hover:-translate-y-1"
           >
-            Ver directorio completo
+            Explorar Directorio Turístico
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </div>

@@ -1,30 +1,32 @@
 export const experiencias = [
   {
     id: "deportes-nauticos",
-    titulo: "Deportes Náuticos (Surf, Kite, Windsurf)",
-    descripcion: "Navidad es un destino de clase mundial para los deportes de viento. Disfruta de las mejores olas y corrientes en Matanzas y Puertecillo.",
+    titulo: "Deportes Náuticos y Aventura",
+    subtitulo: "El paraíso del viento y las olas",
+    descripcion: "Navidad es un destino de turismo aventura y deportivo por excelencia. Disfruta de las mejores olas y vientos para los deportes náuticos. Matanzas y Puertecillo son reconocidos mundialmente por sus condiciones perfectas para el Surf, Kitesurf, Windsurf y el Stand Up Paddle (SUP).",
     imagen: "/img/PlayaMatanzas3.png",
-    categoria: "Aventura y Mar"
+    categoria: "Mar y Aventura",
+    icono: "Waves",
+    actividades: ["Surf", "Kitesurf", "Windsurf", "Stand Up Paddle", "Náutica sin motor"]
   },
   {
-    id: "trekking-cabalgatas",
-    titulo: "Trekking y Cabalgatas",
-    descripcion: "Recorre bosques nativos, humedales y playas a caballo o caminando por los senderos que ofrece la comuna.",
-    imagen: "/img/LaCueva.png",
-    categoria: "Naturaleza"
+    id: "naturaleza-tierra",
+    titulo: "Naturaleza y Tierra",
+    subtitulo: "Bosques, humedales y senderos",
+    descripcion: "Aventúrate a descubrir nuestros bosques y playas. La comuna cuenta con una naturaleza prístina ideal para el Trekking, las Cabalgatas y el Mountain Bike. Explora los humedales, observa la flora y fauna local, y recorre los miradores que ofrecen las mejores postales del litoral.",
+    imagen: "/img/Rapel.jpg",
+    categoria: "Aventura y Naturaleza",
+    icono: "Mountain",
+    actividades: ["Trekking", "Cabalgatas", "Mountain Bike", "Observación de flora y fauna", "Miradores"]
   },
   {
-    id: "mountain-bike",
-    titulo: "Mountain Bike",
-    descripcion: "Aventúrate por los caminos rurales y pistas especialmente diseñadas para los amantes del ciclismo de montaña.",
-    imagen: "/img/Rapel2.jpg",
-    categoria: "Aventura"
-  },
-  {
-    id: "cultura-y-sabores",
-    titulo: "Ruta de la Cultura y Sabores",
-    descripcion: "Visita museos, ferias artesanales y disfruta de la gastronomía típica basada en productos del mar y del campo.",
-    imagen: "/img/Comida.png",
-    categoria: "Cultura"
+    id: "cultura-tradicion",
+    titulo: "Cultura y Tradición",
+    subtitulo: "La esencia del campo, río y mar",
+    descripcion: "Descubre una cultura profundamente arraigada a la tierra. Conoce la noble labor de la pesca artesanal, la recolección de algas y el sustento de la agricultura en sus valles. Visita nuestros museos, el mercado campesino y disfruta de la auténtica gastronomía local.",
+    imagen: "/img/CaletaMatanzas.png",
+    categoria: "Cultura Viva",
+    icono: "Anchor",
+    actividades: ["Pesca Artesanal", "Museos", "Mercado Campesino", "Gastronomía Típica", "Ferias Artesanales"]
   }
 ];

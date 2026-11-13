@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabase'
 import CardServicio from '../components/CardServicio'
 import usePageTitle from '../utils/usePageTitle'
+import { Search, Filter } from 'lucide-react'
 
 export default function Servicios() {
   usePageTitle('Servicios Turísticos')
@@ -15,19 +16,14 @@ export default function Servicios() {
   useEffect(() => {
     async function fetchServicios() {
       setLoading(true)
-      // Hacemos la consulta a Supabase, uniendo la tabla categorias para obtener el nombre
       const { data, error } = await supabase
         .from('servicios')
-        .select(`
-          *,
-          categorias (nombre)
-        `)
-        .order('created_at', { ascending: false }) // Los más nuevos primero
+        .select(`*, categorias (nombre)`)
+        .order('created_at', { ascending: false })
       
       if (error) {
         console.error('Error cargando servicios:', error)
       } else {
-        // Adaptamos los datos al formato que espera tu componente CardServicio
         const serviciosFormateados = data.map(s => ({
           ...s,
           categoria: s.categorias?.nombre || 'General'
@@ -39,7 +35,6 @@ export default function Servicios() {
     fetchServicios()
   }, [])
 
-  // Extraer categorías y localidades únicas
   const categorias = ['Todas', ...new Set(servicios.map(s => s.categoria))]
   const localidades = ['Todas', ...new Set(servicios.map(s => s.localidad))]
 
@@ -52,56 +47,78 @@ export default function Servicios() {
 
   return (
     <div className="bg-brand-sand min-h-screen pb-20">
-      {/* Cabecera */}
-      <div className="bg-brand-blue text-white py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Servicios Turísticos</h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+      
+      {/* Hero de Altura Fija (Igual al resto de páginas) */}
+      <div className="relative h-[50vh] min-h-[450px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/img/PlayaMatanzas1.png" 
+            alt="Servicios Navidad" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-dark/70 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-sand via-transparent to-transparent"></div>
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-6 text-center pt-16">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4 drop-shadow-lg">
+            Servicios Turísticos
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto font-light">
             Encuentra alojamiento, gastronomía y actividades para complementar tu viaje por Navidad.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 -mt-8">
-        {/* Panel de Filtros */}
-        <div className="bg-surface p-6 rounded-lg shadow-md mb-12 border-t-4 border-brand-olive">
+      {/* Contenedor de Filtros Flotantes */}
+      <div className="container mx-auto px-6 -mt-16 relative z-20">
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl mb-12 border-t-4 border-brand-teal">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-bold text-brand-blue mb-2">Buscar por nombre</label>
-              <input 
-                type="text" 
-                placeholder="Ej: Cabañas, Hotel, Kayak..." 
-                className="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:border-brand-teal"
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-              />
+              <label className="block text-xs font-bold text-brand-dark mb-2 uppercase tracking-wider">Buscar</label>
+              <div className="relative">
+                <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <input 
+                  type="text" 
+                  placeholder="Ej: Cabañas, Hotel..." 
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal bg-gray-50"
+                  value={busqueda}
+                  onChange={(e) => setBusqueda(e.target.value)}
+                />
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-bold text-brand-blue mb-2">Categoría</label>
-              <select 
-                className="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:border-brand-teal bg-white"
-                value={categoriaSeleccionada}
-                onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-              >
-                {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-              </select>
+              <label className="block text-xs font-bold text-brand-dark mb-2 uppercase tracking-wider">Categoría</label>
+              <div className="relative">
+                <Filter className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <select 
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal bg-gray-50 appearance-none"
+                  value={categoriaSeleccionada}
+                  onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+                >
+                  {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                </select>
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-bold text-brand-blue mb-2">Localidad</label>
-              <select 
-                className="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:border-brand-teal bg-white"
-                value={localidadSeleccionada}
-                onChange={(e) => setLocalidadSeleccionada(e.target.value)}
-              >
-                {localidades.map(loc => <option key={loc} value={loc}>{loc}</option>)}
-              </select>
+              <label className="block text-xs font-bold text-brand-dark mb-2 uppercase tracking-wider">Localidad</label>
+              <div className="relative">
+                <Filter className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <select 
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal bg-gray-50 appearance-none"
+                  value={localidadSeleccionada}
+                  onChange={(e) => setLocalidadSeleccionada(e.target.value)}
+                >
+                  {localidades.map(loc => <option key={loc} value={loc}>{loc}</option>)}
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Resultados */}
         {loading ? (
-          <div className="text-center py-20 text-brand-blue text-xl font-bold">Cargando servicios...</div>
+          <div className="text-center py-20 text-brand-dark text-xl font-bold animate-pulse">Cargando servicios...</div>
         ) : serviciosFiltrados.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviciosFiltrados.map(servicio => (
@@ -109,8 +126,14 @@ export default function Servicios() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-surface rounded-lg shadow-sm">
+          <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
             <p className="text-xl text-graytext mb-2">No se encontraron servicios con esos criterios.</p>
+            <button 
+              onClick={() => { setBusqueda(''); setCategoriaSeleccionada('Todas'); setLocalidadSeleccionada('Todas'); }}
+              className="mt-4 text-brand-teal font-bold hover:underline"
+            >
+              Limpiar filtros
+            </button>
           </div>
         )}
       </div>

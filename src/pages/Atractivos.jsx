@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { atractivos } from '../data/atractivos'
 import CardAtractivo from '../components/CardAtractivo'
-import usePageTitle from '../utils/usePageTitle' // <-- SEO
+import usePageTitle from '../utils/usePageTitle'
+import { Search, Compass } from 'lucide-react'
 
 export default function Atractivos() {
-  usePageTitle('Atractivos Turísticos') // <-- SEO
+  usePageTitle('Atractivos Turísticos')
   
   const [busqueda, setBusqueda] = useState('')
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todos')
@@ -20,35 +21,55 @@ export default function Atractivos() {
 
   return (
     <div className="bg-brand-sand min-h-screen pb-20">
-      <div className="bg-brand-blue text-white py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Atractivos Turísticos</h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Explora la belleza natural, la cultura y las tradiciones de nuestra comuna.
+      
+      {/* Hero de Altura Fija */}
+      <div className="relative h-[50vh] min-h-[450px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/img/RioRapel.png" 
+            alt="Atractivos Navidad" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-dark/70 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-sand via-transparent to-transparent"></div>
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-6 text-center pt-16">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4 drop-shadow-lg">
+            Atractivos Turísticos
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto font-light">
+            Explora la belleza natural, la cultura y las tradiciones de nuestra comuna. Encuentra tu próximo destino.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 -mt-8">
-        <div className="bg-surface p-6 rounded-lg shadow-md mb-12 flex flex-col md:flex-row gap-4 justify-between items-center border-t-4 border-brand-teal">
-          <div className="w-full md:w-1/2">
-            <input 
-              type="text" 
-              placeholder="Buscar por nombre o localidad..." 
-              className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-brand-teal"
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-            />
+      {/* Contenedor de Búsqueda y Filtros Flotante */}
+      <div className="container mx-auto px-6 -mt-16 relative z-20">
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl mb-12 border-t-4 border-brand-gold flex flex-col lg:flex-row gap-6 justify-between items-center">
+          
+          <div className="w-full lg:w-1/2">
+            <div className="relative">
+              <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
+              <input 
+                type="text" 
+                placeholder="Buscar por nombre o localidad..." 
+                className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold bg-gray-50"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="w-full md:w-1/2 flex flex-wrap gap-2 justify-end">
+
+          <div className="w-full lg:w-1/2 flex flex-wrap gap-2 justify-start lg:justify-end">
             {categorias.map(cat => (
               <button
                 key={cat}
                 onClick={() => setCategoriaSeleccionada(cat)}
-                className={`px-4 py-2 rounded text-sm font-bold transition-colors ${
+                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                   categoriaSeleccionada === cat 
-                    ? 'bg-brand-teal text-white' 
-                    : 'bg-gray-100 text-brand-blue hover:bg-gray-200'
+                    ? 'bg-brand-dark text-white shadow-md' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
                 {cat}
@@ -57,6 +78,7 @@ export default function Atractivos() {
           </div>
         </div>
 
+        {/* Resultados */}
         {atractivosFiltrados.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {atractivosFiltrados.map(atractivo => (
@@ -64,8 +86,9 @@ export default function Atractivos() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <p className="text-xl text-graytext">No se encontraron atractivos con esos criterios.</p>
+          <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
+            <Compass className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <p className="text-xl text-graytext mb-2">No se encontraron atractivos con esos criterios.</p>
             <button 
               onClick={() => { setBusqueda(''); setCategoriaSeleccionada('Todos'); }}
               className="mt-4 text-brand-teal font-bold hover:underline"
